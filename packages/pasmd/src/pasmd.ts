@@ -12,6 +12,7 @@ export class Pasmd {
   asmDom: AsmDom;
   querySelectStr: string;
   vnode: VNode | string;
+  oldVnode: VNode | string;
   Component: Function = $Component;
   Fragment: string = $Fragment;
 
@@ -85,6 +86,7 @@ export class Pasmd {
         // stateState方法
         component.setState = function(newState: { [key: string]: any }): void {
           Object.assign(this.state, newState);
+          // TODO: 父组件render时会丢失子组件的状态
           component.vnode = _this.arrayVNode(component.render());
           _this.render(_this.vnode, _this.querySelectStr);
         };
@@ -110,12 +112,16 @@ export class Pasmd {
 
   render(vnode: VNode | string | Array<VNode | string>, querySelectStr: string): void {
     this.querySelectStr = querySelectStr;
-    this.vnode = Array.isArray(vnode) ? this.arrayVNode(vnode) : vnode;
+
+    if (!this.vnode) {
+      this.vnode = Array.isArray(vnode) ? this.arrayVNode(vnode) : vnode;
+    }
 
     const element: HTMLElement | null = document.querySelector(querySelectStr);
 
     if (element) {
-      this.patch(element, this.renderVNode(this.vnode));
+      this.oldVnode = this.renderVNode(this.vnode);
+      this.patch(element, this.oldVnode);
     }
   }
 
