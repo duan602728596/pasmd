@@ -1,0 +1,17 @@
+# node
+node_modules
+
+# project
+./utils
+
+# packages
+packages/**/lib
+packages/**/node_modules
+packages/**/tests/test.js
+packages/**/tests/dist
+packages/**/tests/.dll
+packages/**/tests/.babelCache
+packages/**/tests/.terserCache
+
+# docs
+storybook-static/*

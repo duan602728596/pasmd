@@ -1,0 +1,6 @@
+{
+  "name": "@pasmd/pasmd",
+  "dependencies": {
+    "asm-dom": "^0.6.3"
+  }
+}
